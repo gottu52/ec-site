@@ -1,7 +1,7 @@
 import React from "react";
-import TextField from "@mui/core";
+import { TextField } from "@material-ui/core";
 
-export const Textinput = (props) => {
+export const TextInput = (props) => {
     return(
         <TextField 
             // 幅maxか否か
