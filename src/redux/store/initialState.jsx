@@ -6,6 +6,6 @@ export const initialState = {
         username: "",
     },
     products: {
-        list: '',       
+        list: [],       
     }
 }

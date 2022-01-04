@@ -22,7 +22,7 @@ export const saveProduct = (name, description, category, gender, price) => {
 
         return productsRef.doc(id).set(data)
             .then(() => {
-                push('/')
+                dispatch(push('/'))
             }).catch((error) => {
                 throw new Error(error)
             })
