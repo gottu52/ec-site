@@ -1,21 +1,22 @@
 import React , {useCallback, useState} from "react";
 import {TextInput} from "../attom/TextInput";
 import {PrimaryButton} from "../attom/PrimaryButton";
-import {signIn} from "../../redux/users/operations";
+import { signIn } from "../../redux/users/operations";
 import { useDispatch } from "react-redux";
+import { push } from "connected-react-router";
 
 export const SignIn = () => {
     const dispatch = useDispatch();
 
     const [ email, setEmail ] = useState(""),
-        [ password, setpassword ] = useState("");
+        [ password, setPassword ] = useState("");
 
     const inputEmail = useCallback((event) => {
         setEmail(event.target.value)
     }, [setEmail])
     const inputpassword = useCallback((event) => {
-        setpassword(event.target.value)
-    }, [setpassword])
+        setPassword(event.target.value)
+    }, [setPassword])
 
     return(
         <div className="c-section-container">
@@ -32,9 +33,12 @@ export const SignIn = () => {
             <div className="module-spacer--medium" />
             <div className="center">
                 <PrimaryButton 
-                    label={"アカウントを登録する"} 
+                    label={"サインインする"} 
                     onClick={() => dispatch(signIn(email, password))}
                 />
+                <div className="module-spacer--medium" />
+                <p onClick={() => dispatch(push('/signUp'))}>パスワードをお持ちでない方はこちら</p>
+                <p onClick={() => dispatch(push('/passwordReset'))}>パスワードを忘れた方はこちら</p>
             </div>
         </div>
     )
