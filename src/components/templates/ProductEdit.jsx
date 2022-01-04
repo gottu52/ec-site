@@ -2,8 +2,8 @@ import React , {useCallback, useState} from "react";
 import {TextInput} from "../attom/TextInput";
 import {PrimaryButton} from "../attom/PrimaryButton";
 import { useDispatch } from "react-redux";
-import { push } from "connected-react-router";
 import { SelectBox } from "../attom/SelectBox";
+import { saveProduct } from "../../redux/products/operations";
 
 export const ProductEdit = () => {
     const dispatch = useDispatch();
@@ -63,7 +63,7 @@ export const ProductEdit = () => {
             <div className="center">
                 <PrimaryButton 
                     label={"商品情報を保存"} 
-                    // onClick={}
+                    onClick={() => dispatch(saveProduct(name, description, category, gender, price))}
                 />
             </div>
         </div>
