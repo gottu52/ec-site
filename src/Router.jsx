@@ -12,9 +12,10 @@ export const Router = () => {
             <Route exact path="/signUp" component={SignUp} />
             <Route exact path="/signIn" component={SignIn} />
             <Route exact path="/passwordReset" component={PasswordReset} />
-            <Route exact path="/productEdit" component={ProductEdit} />
+            
             <Auth>
                <Route exact path="(/)?" component={Home} /> 
+               <Route path="/productEdit(/:id)?" component={ProductEdit} />
             </Auth>
         </Switch>
     )

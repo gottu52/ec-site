@@ -15,7 +15,7 @@ export const Auth = ({children}) => {
         }
     }, []);
 
-    if (isSignedIn) {
+    if (!isSignedIn) {
         return <></>
     } else {
         return children
