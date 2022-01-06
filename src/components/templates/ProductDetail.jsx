@@ -4,6 +4,8 @@ import { useSelector } from "react-redux";
 import HTMLReactParser from "html-react-parser";
 
 import { db } from "../../firebase";
+import { ImageSwiper } from "../molecule/ImageSwiper";
+import { SizeTable } from "../molecule/SizeTable";
 
 const useStyles = makeStyles((theme) => ({
     sliderBox: {
@@ -19,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     detail: {
+        textAlign: 'left',
         [theme.breakpoints.down('sm')]: {
             margin: '0 auto 16px auto',
             height: 'auto',
@@ -67,12 +70,13 @@ export const ProductDetail = () => {
             {product && (
                 <div className="p-grid-row">
                     <div className={classes.sliderBox}>
-                        
+                        <ImageSwiper images={product.images} />
                     </div>
                     <div className={classes.detail}>
                         <h2 className="u-text__headline">{product.name}</h2>
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small" />
+                        <SizeTable sizes={product.sizes} />
                         <div className="module-spacer--small" />
                         <p>{returnCodeToBr(product.description)}</p>
                     </div>

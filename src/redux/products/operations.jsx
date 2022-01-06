@@ -21,7 +21,7 @@ export const fetchProducts = () => {
 }
 
 //商品情報の登録
-export const saveProduct = (name, description, category, gender, price, images, id) => {
+export const saveProduct = (name, description, category, gender, price, images, id, sizes) => {
     const timestamp = FirebaseTimestamp.now()
     return async(dispatch) => {
         const data = {
@@ -31,6 +31,7 @@ export const saveProduct = (name, description, category, gender, price, images, 
             name: name,
             price: price,
             images: images,
+            sizes: sizes,
             updated_at: timestamp,
         }
         
