@@ -1,9 +1,10 @@
 import { push } from "connected-react-router";
 import { db, FirebaseTimestamp } from "../../firebase";
-import { fetchProductsAction } from "./actions";
+import { deleteProductsAction, fetchProductsAction } from "./actions";
 
 const productsRef = db.collection('products');
 
+//商品情報を随時取得
 export const fetchProducts = () => {
     return async(dispatch) => {
         //更新が新しい順にソート（昇順）して。get
@@ -47,5 +48,15 @@ export const saveProduct = (name, description, category, gender, price, images, 
             }).catch((error) => {
                 throw new Error(error)
             })
+    }
+}
+
+//商品情報の削除
+export const deleteProducts = (id) => {
+    return async(dispatch, getState) => {
+        productsRef.doc(id).delete()
+        const prevProducts = getState().products.list;
+        const nextProducts = prevProducts.filter(products => products.id !== id)
+        dispatch(deleteProductsAction(nextProducts))
     }
 }

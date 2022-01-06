@@ -6,6 +6,9 @@ import { makeStyles, Typography } from '@material-ui/core';
 import NoImage from "../../assets/img/no_image.png";
 import {push} from "connected-react-router";
 import { useDispatch } from 'react-redux';
+import { IconButton, Menu, MenuItem } from '@material-ui/core';
+import MOreVertIcon from '@material-ui/icons/MoreVert';
+import { deleteProducts } from '../../redux/products/operations';
 
 const useStyle  = makeStyles((theme) => ({
     root: {
@@ -42,6 +45,14 @@ export const ProductCard = (props) => {
     const classes = useStyle();
     const images = (props.images.length > 0 ? props.images : [{path: NoImage}])
 
+    const [anchorEl, setAnchorEl] = React.useState(null);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget)
+    }
+    const handleClose = () => {
+        setAnchorEl(null)
+    }
+
     return(
         <Card className={classes.root}>
             <CardMedia
@@ -59,6 +70,32 @@ export const ProductCard = (props) => {
                         ¥{price}
                     </Typography> 
                 </div>
+                <IconButton onClick={handleClick} >
+                    <MOreVertIcon />
+                </IconButton>
+                <Menu
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem
+                        onClick={() => {
+                            dispatch(push('productEdit/' + props.id))
+                            handleClose()
+                        }}
+                    >
+                        編集する
+                    </MenuItem>
+                    <MenuItem
+                        onClick={() => {
+                            dispatch(deleteProducts())
+                            handleClose()
+                        }}
+                    >
+                        削除する
+                    </MenuItem>
+                </Menu>
             </CardContent>
         </Card>
     )
