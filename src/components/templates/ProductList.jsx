@@ -12,7 +12,7 @@ export const ProductList = () => {
 
     useEffect(() => {
         dispatch(fetchProducts())
-    }, [])
+    }, [dispatch])
 
     return(
         <section className="c-section-wrapin">
