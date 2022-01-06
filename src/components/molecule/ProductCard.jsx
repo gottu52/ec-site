@@ -89,7 +89,7 @@ export const ProductCard = (props) => {
                     </MenuItem>
                     <MenuItem
                         onClick={() => {
-                            dispatch(deleteProducts())
+                            dispatch(deleteProducts(props.id))
                             handleClose()
                         }}
                     >

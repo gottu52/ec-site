@@ -55,8 +55,10 @@ export const saveProduct = (name, description, category, gender, price, images, 
 export const deleteProducts = (id) => {
     return async(dispatch, getState) => {
         productsRef.doc(id).delete()
-        const prevProducts = getState().products.list;
-        const nextProducts = prevProducts.filter(products => products.id !== id)
-        dispatch(deleteProductsAction(nextProducts))
+        .then(() => {
+            const prevProducts = getState().products.list;
+            const nextProducts = prevProducts.filter(product => product.id !== id)
+            dispatch(deleteProductsAction(nextProducts))
+        })
     }
 }
