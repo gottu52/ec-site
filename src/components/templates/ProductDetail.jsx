@@ -1,11 +1,12 @@
 import { makeStyles } from '@material-ui/styles';
-import { useEffect, useState } from "react"
-import { useSelector } from "react-redux";
+import { useCallback, useEffect, useState } from "react"
+import { useDispatch, useSelector } from "react-redux";
 import HTMLReactParser from "html-react-parser";
 
-import { db } from "../../firebase";
+import { db, FirebaseTimestamp } from "../../firebase";
 import { ImageSwiper } from "../molecule/ImageSwiper";
 import { SizeTable } from "../molecule/SizeTable";
+import { addProductToCart } from '../../redux/users/operations';
 
 const useStyles = makeStyles((theme) => ({
     sliderBox: {
@@ -50,6 +51,7 @@ const returnCodeToBr = (text) => {
 export const ProductDetail = () => {
     const selector = useSelector(state => state)
     const classes = useStyles();
+    const dispatch = useDispatch()
 
     //reduxで管理しているルーティングの情報からパスネーム（URL)を引き出す
     const path = selector.router.location.pathname;
@@ -65,7 +67,21 @@ export const ProductDetail = () => {
             })
     }, [])
 
-    
+    const addProduct = useCallback((selectedSize) => {
+        const timestamp = FirebaseTimestamp.now()
+        dispatch(addProductToCart({
+            added_at: timestamp,
+            name: product.name,
+            description: product.discription,
+            category: product.category,
+            gender: product.gender,
+            price: product.price,
+            images: product.images,
+            productId: product.id,
+            quantity: 1,
+            size: selectedSize
+        }))
+    }, [dispatch, product])
 
     return(
         <section className="c-section-wrapin">
@@ -78,7 +94,7 @@ export const ProductDetail = () => {
                         <h2 className="u-text__headline">{product.name}</h2>
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small" />
-                        <SizeTable sizes={product.sizes} />
+                        <SizeTable sizes={product.sizes} onClick={addProduct}/>
                         <div className="module-spacer--small" />
                         <p>{returnCodeToBr(product.description)}</p>
                     </div>
