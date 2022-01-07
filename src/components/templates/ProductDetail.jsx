@@ -65,6 +65,8 @@ export const ProductDetail = () => {
             })
     }, [])
 
+    
+
     return(
         <section className="c-section-wrapin">
             {product && (

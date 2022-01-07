@@ -5,7 +5,7 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import MenuIcon from "@material-ui/icons/Menu";
 
 
-export const HeaderMenu = () => {
+export const HeaderMenu = (props) => {
     return(
         <>
             <IconButton>
@@ -16,7 +16,7 @@ export const HeaderMenu = () => {
             <IconButton>
                 <FavoriteBorder />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={(event) => props.onClick(event)}>
                 <MenuIcon />
             </IconButton>
         </>

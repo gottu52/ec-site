@@ -58,12 +58,12 @@ export const Header = () => {
                     />
                     {isSignedIn && (
                     <div className={classes.iconButtons}>
-                        <HeaderMenu />
+                        <HeaderMenu onClick={handleDrawerToggle}/>
                     </div>
                     )}
                 </Toolbar>
             </AppBar>
-            <ClosableDrawer open={open} close={handleDrawerToggle} />
+            <ClosableDrawer open={open} onClose={handleDrawerToggle} />
         </div>
     )
 }
