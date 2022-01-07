@@ -1,5 +1,5 @@
 import { InputLabel, MenuItem, FormControl, Select } from "@material-ui/core"
-import { makeStyles } from "@material-ui/styles"
+import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
     formControl: {

@@ -1,6 +1,6 @@
 import { IconButton } from "@material-ui/core";
 import AddPhotAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles } from '@material-ui/styles';
 import { useCallback } from "react";
 import { storage } from "../../firebase";
 import { ImagePreview } from "../attom/ImagePreview";

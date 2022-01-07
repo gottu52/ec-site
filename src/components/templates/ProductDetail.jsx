@@ -1,4 +1,4 @@
-import { makeStyles } from "@material-ui/core";
+import { makeStyles } from '@material-ui/styles';
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux";
 import HTMLReactParser from "html-react-parser";

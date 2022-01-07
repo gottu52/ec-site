@@ -1,4 +1,4 @@
-import {makeStyles} from "@mui/styles";
+import { makeStyles } from '@material-ui/styles';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import { useSelector } from "react-redux";
@@ -8,6 +8,8 @@ import { push } from "connected-react-router";
 import logo from "../../assets/img/logo.png";
 import { getIsSignedIn } from "../../redux/users/selector";
 import { HeaderMenu } from "../molecule/HeaderMenu";
+import { ClosableDrawer } from "../molecule/ClosableDrawer";
+import { useCallback, useState } from "react";
 
 
 const useStyles = makeStyles({
@@ -35,7 +37,16 @@ export const Header = () => {
     const classes = useStyles();
     const selector = useSelector(state => state);
     const isSignedIn = getIsSignedIn(selector);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const [open, setOpen] = useState(false);
+
+    const handleDrawerToggle = useCallback((event) => {
+        if(event.type === 'keydown' && 
+            (event.key === 'Tab' || event.key === 'Shift')) {
+            return; 
+            }
+            setOpen(!open)
+    }, [open, setOpen])
 
     return (
         <div className={classes.root}>
@@ -52,6 +63,7 @@ export const Header = () => {
                     )}
                 </Toolbar>
             </AppBar>
+            <ClosableDrawer open={open} close={handleDrawerToggle} />
         </div>
     )
 }
