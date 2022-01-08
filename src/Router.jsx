@@ -6,6 +6,8 @@ import { PasswordReset } from "./components/templates/PasswordReset";
 import { ProductEdit } from "./components/templates/ProductEdit";
 import { ProductList } from "./components/templates/ProductList";
 import { ProductDetail } from "./components/templates/ProductDetail";
+import { CartList } from "./components/templates/CartList";
+import { OrderConfirm } from "./components/templates/OrderConfirm";
 
 export const Router = () => {
     return (
@@ -17,6 +19,8 @@ export const Router = () => {
                <Route exact path="(/)?" component={ProductList} /> 
                <Route exact path="/product/:id" component={ProductDetail} />
                <Route path="/productEdit(/:id)?" component={ProductEdit} />
+               <Route path="/cart" component={CartList} />
+               <Route path="/order/confirm" component={OrderConfirm} />
             </Auth>
         </Switch>
     )

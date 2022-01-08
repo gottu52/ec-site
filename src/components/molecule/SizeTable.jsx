@@ -19,7 +19,6 @@ const useStyles = makeStyles({
 export const SizeTable = (props) => {
     const classes = useStyles()
     const sizes = props.sizes
-    console.log(sizes)
 
     return(
         <TableContainer>

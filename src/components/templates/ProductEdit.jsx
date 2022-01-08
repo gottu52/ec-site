@@ -17,21 +17,6 @@ export const ProductEdit = () => {
         id = id.split('/')[1]
     }
 
-    useEffect(() => {
-        if(id !== "") {
-            db.collection('products').doc(id).get()
-                .then(snapshot => {
-                    const data = snapshot.data();
-                    setName(data.name);
-                    setDescription(data.description);
-                    setCategory(data.category);
-                    setGender(data.gender);
-                    setPrice(data.price);
-                    setImages(data.images);
-                })
-        }
-    }, [id])
-
     //useState
     const [ name, setName ] = useState(""),
         [ description, setDescription ] = useState(""),
@@ -64,6 +49,22 @@ export const ProductEdit = () => {
         { id: "lady", name: "レディース" },
     ]
 
+    useEffect(() => {
+        if(id !== "") {
+            db.collection('products').doc(id).get()
+                .then(snapshot => {
+                    const data = snapshot.data();
+                    setName(data.name);
+                    setDescription(data.description);
+                    setCategory(data.category);
+                    setGender(data.gender);
+                    setPrice(data.price);
+                    setImages(data.images);
+                })
+        }
+    }, [id])
+
+
     return(
         <div className="c-section-container">
             <h2 className="u-text__headline u-text-center">商品の登録、追加</h2>
@@ -87,7 +88,7 @@ export const ProductEdit = () => {
             />
             <TextInput 
                 fullWidth={true} label={"価格"} multiline={false} required={true}
-                rows={1} value={price} type={"text"} onChange={inputPrice}
+                rows={1} value={price} type={"number"} onChange={inputPrice}
             />
             <div className="module-spacer--small" />
             <SetSizesArea sizes={sizes} setSizes={setSizes} />

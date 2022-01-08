@@ -68,11 +68,11 @@ export const ProductDetail = () => {
     }, [])
 
     const addProduct = useCallback((selectedSize) => {
-        const timestamp = FirebaseTimestamp.now()
+        const timestamp = FirebaseTimestamp.now();
         dispatch(addProductToCart({
             added_at: timestamp,
             name: product.name,
-            description: product.discription,
+            description: product.description,
             category: product.category,
             gender: product.gender,
             price: product.price,
@@ -81,7 +81,7 @@ export const ProductDetail = () => {
             quantity: 1,
             size: selectedSize
         }))
-    }, [dispatch, product])
+    }, [product])
 
     return(
         <section className="c-section-wrapin">
@@ -94,7 +94,7 @@ export const ProductDetail = () => {
                         <h2 className="u-text__headline">{product.name}</h2>
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small" />
-                        <SizeTable sizes={product.sizes} onClick={addProduct}/>
+                        <SizeTable sizes={product.sizes} addProduct={addProduct}/>
                         <div className="module-spacer--small" />
                         <p>{returnCodeToBr(product.description)}</p>
                     </div>
