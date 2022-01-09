@@ -1,6 +1,6 @@
 import {push} from 'connected-react-router';
 import {auth, FirebaseTimestamp, db} from "../../firebase/index";
-import { fetchProductsInCartAction, signInAction, signOutAction } from './actions';
+import { fetchOrdersHistoryAction, fetchProductsInCartAction, signInAction, signOutAction } from './actions';
 
 export const signIn = (email, password) => {
     return async(dispatch) => {
@@ -110,6 +110,23 @@ export const addProductToCart = (addedProduct) => {
 export const fetchProductsInCart = (products) => {
     return async(dispatch) => {
         dispatch(fetchProductsInCartAction(products))
+    }
+}
+
+export const fetchOrdersHistory = () => {
+    return async(dispatch, getState) => {
+        const uid = getState().users.uid
+        const list = []
+
+        //更新が新しい順にデータをゲット
+        db.collection('users').doc(uid).collection('orders').orderBy('updated_at', 'desc').get()
+            .then((snapshots) => {
+                snapshots.forEach(snapshot => {
+                    const data = snapshot.data()
+                    list.push(data)
+                })
+                dispatch(fetchOrdersHistoryAction(list))
+            })
     }
 }
 

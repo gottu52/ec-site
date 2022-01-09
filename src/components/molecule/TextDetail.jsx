@@ -4,7 +4,7 @@ import { makeStyles } from "@material-ui/styles"
 const useStyles = makeStyles({
     row: {
         display: 'flex',
-        flexFlow: 'value',
+        flexFlow: 'row wrap',
         marginBottom: 16
     },
     label: {

@@ -1,5 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+//css
+import "./assets/reset.css";
+import "./assets/style.css";
 // store関連
 import { Provider } from 'react-redux';
 import { createStore } from './redux/store/store';

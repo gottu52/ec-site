@@ -1,7 +1,4 @@
-import {  Router } from "./Router";
-import "./assets/theme";
-import "./assets/reset.css";
-import "./assets/style.css";
+import { Router } from "./Router";
 import { Header } from "./components/templates/Header";
 
 function App() {

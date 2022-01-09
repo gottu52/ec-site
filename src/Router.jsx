@@ -8,6 +8,7 @@ import { ProductList } from "./components/templates/ProductList";
 import { ProductDetail } from "./components/templates/ProductDetail";
 import { CartList } from "./components/templates/CartList";
 import { OrderConfirm } from "./components/templates/OrderConfirm";
+import { OrderHistory } from "./components/templates/OrderHistory";
 
 export const Router = () => {
     return (
@@ -21,6 +22,7 @@ export const Router = () => {
                <Route path="/productEdit(/:id)?" component={ProductEdit} />
                <Route path="/cart" component={CartList} />
                <Route path="/order/confirm" component={OrderConfirm} />
+               <Route path="/order/history" component={OrderHistory} />
             </Auth>
         </Switch>
     )
