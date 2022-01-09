@@ -54,7 +54,7 @@ export const OrderConfirm = () => {
     }, [dispatch, productsInCart, total])
 
     return (
-        <section className="='c-section-wrapin">
+        <section className="c-section-wrapin">
             <h2 className="u-text__headline">注文の確認</h2>
             <div className="p-grid__row">
                 <div className={classes.detailBox}>

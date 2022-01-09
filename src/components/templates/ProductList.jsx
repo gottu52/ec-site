@@ -10,9 +10,19 @@ export const ProductList = () => {
     const selector = useSelector(state => state);
     const products =  getProducts(selector);
 
+    //urlを取得
+    const query = selector.router.location.search
+    //?=で始まるurlですか？（クエリパラメータの検証）
+    //  ^\は先頭を表す
+    // splitで?gender=1以降の文字列を取得（この場合はmaleとかfemaleとか）
+    const gender = /^\?gender=/.test(query) ? query.split('?gender=')[1] : "";
+    //同じ要領でカテゴリーも
+    const category = /^\?category=/.test(query) ? query.split('?category=')[1] : "";
+    
+    //fetchProducts in operation(products)
     useEffect(() => {
-        dispatch(fetchProducts())
-    }, [dispatch])
+        dispatch(fetchProducts(gender, category))
+    }, [query])
 
     return(
         <section className="c-section-wrapin">

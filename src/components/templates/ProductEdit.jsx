@@ -21,6 +21,7 @@ export const ProductEdit = () => {
     const [ name, setName ] = useState(""),
         [ description, setDescription ] = useState(""),
         [ category, setCategory ] = useState(""),
+        [ categories, setCategories ] = useState([]),
         [ gender, setGender ] = useState(""),
         [ price, setPrice ] = useState(""),
         [ images, setImages ] = useState([]),
@@ -38,15 +39,10 @@ export const ProductEdit = () => {
     }, [setPrice])
 
     //selectBox内でループするデータ(option)
-    const categories = [
-        { id: "tops", name: "トップス" },
-        { id: "shirts", name: "シャツ" },
-        { id: "pants", name: "パンツ" },
-    ]
     const genders = [
         { id: "all", name: "全て" },
-        { id: "man", name: "メンズ" },
-        { id: "lady", name: "レディース" },
+        { id: "male", name: "メンズ" },
+        { id: "female", name: "レディース" },
     ]
 
     useEffect(() => {
@@ -63,6 +59,21 @@ export const ProductEdit = () => {
                 })
         }
     }, [id])
+
+    useEffect(() => {
+        db.collection('categories').orderBy('order', 'asc').get()
+            .then(snapshots => {
+                const list = []
+                snapshots.forEach(snapshot => {
+                    const data = snapshot.data()
+                    list.push({
+                        id: data.id,
+                        name: data.name
+                    })
+                })
+                setCategories(list)    
+            })
+    }, [])
 
 
     return(

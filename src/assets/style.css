@@ -14,7 +14,8 @@
 
 /*********** Section ***********/
 .c-main {
-    padding: 96px 0
+    padding: 96px 0;
+    height: 1000px
 }
 .c-section-wrapin {
     margin: 0 auto;

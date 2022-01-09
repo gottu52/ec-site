@@ -12,11 +12,12 @@ import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { makeStyles } from '@material-ui/styles';
 import { TextInput } from '../attom/TextInput';
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
 
 import { signOut } from "../../redux/users/operations";
+import { db } from "../../firebase";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -53,6 +54,13 @@ export const ClosableDrawer = (props) => {
         props.onClose(event)
     }
 
+    //検索フィルター
+    const [filters, setFilters] = useState([
+        { func: selectMenu, label:"すべて", id: "all", value: "/" },
+        { func: selectMenu, label:"メンズ", id: "male", value: "/?gender=male" },
+        { func: selectMenu, label:"レディース", id: "female", value: "/?gender=female" },
+    ])
+
     const menus = [
         {
             func: selectMenu, 
@@ -77,6 +85,24 @@ export const ClosableDrawer = (props) => {
         },
     ];
 
+    //componentDidMountでfirestoreからカテゴリーのデータを持ってくる
+    useEffect(() => [
+        db.collection('categories').orderBy('order', 'asc').get()
+            .then(snapshots => {
+                const list = []
+                snapshots.forEach(snapshot => {
+                    const data = snapshot.data()
+                    list.push({
+                        func: selectMenu,
+                        label: data.name,
+                        id: data.id,
+                        value: `/?category=${data.id}`
+                    })
+                })
+                setFilters(prevState => [...prevState, ...list])
+            })
+    ], [])
+
     return(
         <nav className={classes.drawer}>
             <Drawer
@@ -92,6 +118,7 @@ export const ClosableDrawer = (props) => {
                     onClose={(e) => props.onClose(e)}
                     onKeyDown={(e) => props.onClose(e)}
                 >
+                    {/* 検索項目 */}
                     <div className={classes.serchField}>
                         <TextInput
                             fullWidth={false}
@@ -108,7 +135,9 @@ export const ClosableDrawer = (props) => {
                         </IconButton>
                     </div>
                     <Divider />
+                    {/* メニューリスト */}
                     <List>
+                        {/* メニュー一覧 */}
                         {menus.map(menu => (
                             <ListItem button key={menu.id} onClick={(e) => menu.func(e, menu.value)}>
                                 <ListItemIcon>
@@ -117,12 +146,25 @@ export const ClosableDrawer = (props) => {
                                 <ListItemText primary={menu.label} />
                             </ListItem>
                         ))}
+                        {/* ログアウト */}
                         <ListItem button key="logout" onClick={() => dispatch(signOut())} >
                             <ListItemIcon>
                                 <ExitToAppIcon />
                             </ListItemIcon>
                             <ListItemText primary={"ログアウト"} />
                         </ListItem>
+                    </List>
+                    {/* カテゴリーリスト */}
+                    <List>
+                        {filters.map(filter => (
+                            <ListItem 
+                                button 
+                                key={filter.id}
+                                onClick={(e) => filter.func(e, filter.value)}    
+                            >
+                                <ListItemText primary={filter.label} />
+                            </ListItem>
+                        ))}
                     </List>
                 </div>
             </Drawer>

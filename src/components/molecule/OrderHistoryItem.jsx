@@ -1,4 +1,5 @@
 import { Divider } from "@material-ui/core"
+import { OrderedProducts } from "./OrderedProducts"
 
 import { TextDetail } from "./TextDetail"
 
@@ -27,14 +28,16 @@ export const OrderHistoryItem = (props) => {
 
     return(
         <div>
-            <div className="module-spacer--small">
-                <TextDetail label={"注文ID"} value={order.id} />
-                <TextDetail label={"注文日時"} value={orderedDatetime} />
-                <TextDetail label={"発送予定日"} value={shippingDate} />
-                <TextDetail label={"注文金"} value={price} />
-                <div className="module-spacer--extra-extra-small"></div>
-                <Divider />
-            </div>
+            <div className="module-spacer--small"></div>
+            <TextDetail label={"注文ID"} value={order.id} />
+            <TextDetail label={"注文日時"} value={orderedDatetime} />
+            <TextDetail label={"発送予定日"} value={shippingDate} />
+            <TextDetail label={"注文金"} value={price} />
+            {order.products.length > 0 && (
+                <OrderedProducts products={order.products} />
+            )}
+            <div className="module-spacer--extra-extra-small"></div>
+            <Divider />
         </div>
     )
 }
