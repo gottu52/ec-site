@@ -17,6 +17,7 @@ export const HeaderMenu = (props) => {
     let productsInCart = getProductInCart(selector);
     const userId = getUserId(selector);
     const dispatch = useDispatch();
+    console.log(productsInCart)
 
     useEffect(() => {
         const unsubscribe = db.collection('users').doc(userId).collection('cart')

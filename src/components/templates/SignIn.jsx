@@ -8,9 +8,11 @@ import { push } from "connected-react-router";
 export const SignIn = () => {
     const dispatch = useDispatch();
 
+    //ログイン時のemail,password
     const [ email, setEmail ] = useState(""),
         [ password, setPassword ] = useState("");
 
+    //email,passwordのonChange
     const inputEmail = useCallback((event) => {
         setEmail(event.target.value)
     }, [setEmail])
@@ -32,11 +34,13 @@ export const SignIn = () => {
             />
             <div className="module-spacer--medium" />
             <div className="center">
+                {/* クリックでログイン処理(users/operation) */}
                 <PrimaryButton 
                     label={"サインインする"} 
                     onClick={() => dispatch(signIn(email, password))}
                 />
                 <div className="module-spacer--medium" />
+                {/* ページ遷移 */}
                 <p onClick={() => dispatch(push('/signUp'))}>パスワードをお持ちでない方はこちら</p>
                 <p onClick={() => dispatch(push('/passwordReset'))}>パスワードを忘れた方はこちら</p>
             </div>

@@ -2,6 +2,7 @@ import {push} from 'connected-react-router';
 import {auth, FirebaseTimestamp, db} from "../../firebase/index";
 import { fetchOrdersHistoryAction, fetchProductsInCartAction, signInAction, signOutAction } from './actions';
 
+//サインイン処理
 export const signIn = (email, password) => {
     return async(dispatch) => {
         // Validation
@@ -9,10 +10,14 @@ export const signIn = (email, password) => {
             alert("必須項目が未入力です")
             return false
         }
+        //firebase.auth()のメソッド、signInWithEmailAndPasswordを実行(引数にemail,password)
         auth.signInWithEmailAndPassword(email, password)
         .then(result => {
+            //取ってきたデータを定数に入れる
             const user = result.user
+            //データが存在するなら
             if(user) {
+                //中のデータをオブジェクトに入れてactionする
                 const uid = user.uid
                 db.collection('users').doc(uid).get()
                 .then(snapshot => {
@@ -23,6 +28,7 @@ export const signIn = (email, password) => {
                         uid: data.uid,
                         username: data.username
                     }))
+                    //ホーム画面に遷移
                     dispatch(push('/'))
                 })
             }
