@@ -41,26 +41,22 @@ const useStyles = makeStyles((theme) => ({
 
 
 export const ClosableDrawer = (props) => {
+    const dispatch = useDispatch();    
     const classes = useStyles()
+    //入力欄のuseState
     const [keyword, setKeyword] = useState('');
-    const dispatch = useDispatch();
-
+    //入力欄のonChange
     const inputKeyword = useCallback((event) => {
         setKeyword(event.target.value)
     }, [setKeyword])
 
+    //メニューをクリックしたときの処理(ページ遷移してメニューを閉じる)
     const selectMenu = (event, path) => {
         dispatch(push(path))
-        props.onClose(event)
+        props.onClose(event, false)
     }
 
-    //検索フィルター
-    const [filters, setFilters] = useState([
-        { func: selectMenu, label:"すべて", id: "all", value: "/" },
-        { func: selectMenu, label:"メンズ", id: "male", value: "/?gender=male" },
-        { func: selectMenu, label:"レディース", id: "female", value: "/?gender=female" },
-    ])
-
+    //配列をループで回して一覧を表示
     const menus = [
         {
             func: selectMenu, 
@@ -85,6 +81,13 @@ export const ClosableDrawer = (props) => {
         },
     ];
 
+    //検索フィルター
+    const [filters, setFilters] = useState([
+        { func: selectMenu, label:"すべて", id: "all", value: "/" },
+        { func: selectMenu, label:"メンズ", id: "male", value: "/?gender=male" },
+        { func: selectMenu, label:"レディース", id: "female", value: "/?gender=female" },
+    ])
+
     //componentDidMountでfirestoreからカテゴリーのデータを持ってくる
     useEffect(() => [
         db.collection('categories').orderBy('order', 'asc').get()
@@ -99,6 +102,7 @@ export const ClosableDrawer = (props) => {
                         value: `/?category=${data.id}`
                     })
                 })
+                //filterにセット
                 setFilters(prevState => [...prevState, ...list])
             })
     ], [])
@@ -110,7 +114,7 @@ export const ClosableDrawer = (props) => {
                 variant="temporary"
                 anchor='right'
                 open={props.open}
-                onClose={(e) => props.onClose(e)}
+                onClose={(e) => props.onClose(e, false)}
                 classes={{paper: classes.drawerPaper}}
                 ModalProps={{keepMounted: true}}
             >

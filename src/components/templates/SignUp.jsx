@@ -7,11 +7,13 @@ import { useDispatch } from "react-redux";
 export const SignUp = () => {
     const dispatch = useDispatch();
 
+    //入力内容のuseState
     const [ username, setUsername ] = useState(""),
         [ email, setEmail ] = useState(""),
-        [ password, setpassword ] = useState(""),
+        [ password, setPassword ] = useState(""),
         [ confirmPassword, setConfirmPassword ] = useState("");
 
+    //入力内容のonChange
     const inputUsername = useCallback((event) => {
         setUsername(event.target.value)
     }, [setUsername])
@@ -19,8 +21,8 @@ export const SignUp = () => {
         setEmail(event.target.value)
     }, [setEmail])
     const inputpassword = useCallback((event) => {
-        setpassword(event.target.value)
-    }, [setpassword])
+        setPassword(event.target.value)
+    }, [setPassword])
     const inputConfirmPassword = useCallback((event) => {
         setConfirmPassword(event.target.value)
     }, [setConfirmPassword])
@@ -47,6 +49,7 @@ export const SignUp = () => {
             />
             <div className="module-spacer--medium" />
             <div className="center">
+                {/* サインアップを実行(users/operation) */}
                 <PrimaryButton 
                     label={"アカウントを登録する"} 
                     onClick={() => dispatch(signUp(username, email, password, confirmPassword))}

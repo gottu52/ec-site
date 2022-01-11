@@ -17,11 +17,12 @@ export const signIn = (email, password) => {
             const user = result.user
             //データが存在するなら
             if(user) {
-                //中のデータをオブジェクトに入れてactionする
+                //firestoreからデータを取ってきて
                 const uid = user.uid
                 db.collection('users').doc(uid).get()
                 .then(snapshot => {
                     const data = snapshot.data()
+                    //actionを実行
                     dispatch(signInAction({
                         isSignedIn: true,
                         role: data.role,
@@ -36,6 +37,7 @@ export const signIn = (email, password) => {
     }
 }
 
+//サインアップ処理
 export const signUp = (username, email, password, confirmPassword) => {
     return async(dispatch) => {
         // Validation
@@ -47,10 +49,14 @@ export const signUp = (username, email, password, confirmPassword) => {
             alert("パスワードが一致しません。もう一度入力してください")
             return false
         }
+        //firebase.auth()のメソッドを実行(email,passwordの登録)
         return auth.createUserWithEmailAndPassword(email, password)
         .then(result => {
+            //データを定数に入れ、
             const user = result.user
+            //データが存在するなら、
             if(user) {
+                //オブジェクトを作って
                 const uid = user.uid
                 const timestamp = FirebaseTimestamp.now()
                 const userInitialData = {
@@ -61,8 +67,10 @@ export const signUp = (username, email, password, confirmPassword) => {
                     updated_at: timestamp,
                     username: username
                 }
+                //firestoreにset
                 db.collection('users').doc(uid).set(userInitialData)
                 .then(() => {
+                    //最後にページ遷移
                     dispatch(push('/'))
                 })
             }
@@ -70,13 +78,36 @@ export const signUp = (username, email, password, confirmPassword) => {
     }
 }
 
+//ログアウト処理
 export const signOut = () => {
     return async(dispatch) => {
+        //fireatore.auth()のメソッドを実行
         auth.signOut()
             .then(() => {
+                //actionとページ遷移
                 dispatch(signOutAction())
                 dispatch(push('/signIn'))
             })
+    }
+}
+
+//パスワードのリセット処理
+export const resetPassword = (email) => {
+    return async(dispatch) => {
+        //Validation
+        if(email === "") {
+            alert('必須項目が未入力です')
+            return false
+        } else {
+            //firestoreのメソッドを実行
+            auth.sendPasswordResetEmail(email)
+                .then(() => {
+                    alert('パスワード再設定のメールを送信いたしました。ご確認ください。')
+                    dispatch(push('/signIn'))
+                }).catch(() => {
+                    alert('パスワードの再設定に失敗しました')
+                })
+            }
     }
 }
 
@@ -102,12 +133,18 @@ export const listenAuthState = () => {
     }
 }
 
+
+//カートに商品を追加する
 export const addProductToCart = (addedProduct) => {
     return async(dispatch, getState) => {
+        //usersのidを取得し
         const uid = getState().users.uid
+        //それを使ってcollection('users')のcartのデータを取得
         const cartRef = db.collection('users').doc(uid).collection('cart').doc()
+        //cartコレクションに追加するデータに['cartId']のフィールドを追加
         addedProduct['cartId'] = cartRef.id
 
+        //最後にcartコレクションにデータを追加し、ホームページに遷移
         await cartRef.set(addedProduct)
         dispatch(push('/'))
     }
@@ -136,19 +173,3 @@ export const fetchOrdersHistory = () => {
     }
 }
 
-export const resetPassword = (email) => {
-    return async(dispatch) => {
-        if(email === "") {
-            alert('必須項目が未入力です')
-            return false
-        } else {
-            auth.sendPasswordResetEmail(email)
-                .then(() => {
-                    alert('パスワード再設定のメールを送信いたしました。ご確認ください。')
-                    dispatch(push('/signIn'))
-                }).catch(() => {
-                    alert('パスワードの再設定に失敗しました')
-                })
-            }
-    }
-}

@@ -57,9 +57,11 @@ export const ProductDetail = () => {
     const path = selector.router.location.pathname;
     const id = path.split("/product/")[1]
 
+    //ページに反映されるデータ
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
+        //urlから取ってきたidと一致するproductsのデータを取ってくる
         db.collection('products').doc(id).get()
             .then(doc => {
                 const data = doc.data();
@@ -67,6 +69,8 @@ export const ProductDetail = () => {
             })
     }, [])
 
+    //カートアイコンに渡す関数
+    //カートに商品を追加する関数(users/operation)をdispatchで実行する
     const addProduct = useCallback((selectedSize) => {
         const timestamp = FirebaseTimestamp.now();
         dispatch(addProductToCart({
@@ -87,15 +91,20 @@ export const ProductDetail = () => {
         <section className="c-section-wrapin">
             {product && (
                 <div className="p-grid-row">
+                    {/* 商品画像 */}
                     <div className={classes.sliderBox}>
                         <ImageSwiper images={product.images} />
                     </div>
                     <div className={classes.detail}>
+                        {/* 商品名 */}
                         <h2 className="u-text__headline">{product.name}</h2>
+                        {/* 価格 */}
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small" />
+                        {/* サイズ、数量を表示するmolecule */}
                         <SizeTable sizes={product.sizes} addProduct={addProduct}/>
                         <div className="module-spacer--small" />
+                        {/* 商品の説明 */}
                         <p>{returnCodeToBr(product.description)}</p>
                     </div>
                 </div>

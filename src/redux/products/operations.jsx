@@ -9,7 +9,7 @@ export const fetchProducts = (gender, category) => {
     return async(dispatch) => {
         //更新が新しい順にソート（昇順）
         let query = productsRef.orderBy('updated_at', 'desc')
-        //genderが空白じゃないなら、
+        //genderが空白じゃないなら、(メニューでソートを行っているのなら)
         //productRefのgenderと引数のgenderが一致するデータに置き換える
         query = (gender !== "") ? query.where('gender', '==', gender) : query
         //categoryも同じ様に

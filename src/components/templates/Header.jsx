@@ -40,22 +40,25 @@ export const Header = () => {
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
 
-    const handleDrawerToggle = useCallback((event) => {
+    //クリックしたらメニューを開閉する
+    const handleDrawerToggle = useCallback((event, isOpen) => {
         if(event.type === 'keydown' && 
             (event.key === 'Tab' || event.key === 'Shift')) {
             return; 
             }
-            setOpen(!open)
+            setOpen(isOpen)
     }, [open, setOpen])
 
     return (
         <div className={classes.root}>
             <AppBar position="fixed" className={classes.menuBar}>
                 <Toolbar className={classes.toolBar}>
+                    {/* ロゴ */}
                     <img 
                         src={logo} alt="logo" className={classes.logo} width="128px"
                         onClick={() => dispatch(push('/'))}
                     />
+                    {/* ログインしてたらアイコンを表示 */}
                     {isSignedIn && (
                     <div className={classes.iconButtons}>
                         <HeaderMenu onClick={handleDrawerToggle}/>
@@ -63,6 +66,7 @@ export const Header = () => {
                     )}
                 </Toolbar>
             </AppBar>
+            {/* メニュー中身 */}
             <ClosableDrawer open={open} onClose={handleDrawerToggle} />
         </div>
     )

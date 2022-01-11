@@ -25,3 +25,79 @@ export const createStore = (history) => {
     )
 }
 
+
+// store = {
+
+//     usersコレクション
+//     users: {
+//         username,
+//         uid,
+//         email,
+//         role,
+//         created_at,
+//         updates_at,
+//         cartコレクション
+//         cart: [
+//             {
+//                 cartId,
+//                 productId,
+//                 name,
+//                 description,
+//                 price,
+//                 quantity,
+//                 size,
+//                 gender,
+//                 added_at,
+//                 images: [
+//                     {id, path}
+//                 ]
+//              },
+//         ]
+//         ordersコレクション
+//         orders: [
+//              {
+//                  id,
+//                  amount,
+//                  created_at,
+//                  updated_at,
+//                  shipping_date,
+//                  products: [
+//                      id,
+//                      price,
+//                      size,
+//                      images: {id, path}
+//                  ]
+//              }
+//         ]
+//     },
+
+//     productsコレクション
+//     products: {
+//          list: [
+//              {
+//                  id,
+//                  name,
+//                  description,
+//                  category,
+//                  price,
+//                  added_at,
+//                  updated_at,
+//                  images: [
+//                      {id, path}
+//                  ],
+//                  sizes: [
+//                      {quantity, size}
+//                  ]
+//              }
+//          ]
+//     },
+
+//     categoriesコレクション(ソートのためのやつ)
+//     categories: {
+//         nadvamvako: {
+//             id(パンツとか),
+//             name,
+//             order(並び順)
+//         }
+//     }
+// }

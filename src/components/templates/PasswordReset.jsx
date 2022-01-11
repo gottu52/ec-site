@@ -7,8 +7,10 @@ import { useDispatch } from "react-redux";
 export const PasswordReset = () => {
     const dispatch = useDispatch();
 
+    //入力内容のuseState
     const [ email, setEmail ] = useState("");
 
+    //入力欄のonChange
     const inputEmail = useCallback((event) => {
         setEmail(event.target.value)
     }, [setEmail])
@@ -23,6 +25,7 @@ export const PasswordReset = () => {
             />
             <div className="module-spacer--medium" />
             <div className="center">
+                {/* パスワードの再設定を実行(users/operation) */}
                 <PrimaryButton 
                     label={"パスワードを再設定する"} 
                     onClick={() => dispatch(resetPassword(email))}
