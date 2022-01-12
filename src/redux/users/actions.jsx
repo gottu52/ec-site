@@ -40,4 +40,10 @@ export const fetchOrdersHistoryAction = (list) => {
     }
 }
 
-
+export const FETCH_FAVORITE = "FETCH_FAVORITE";
+export const fetchFavoriteAction = (product) => {
+    return{
+        type: "FETCH_FAVORITE",
+        payload: product
+    }
+}

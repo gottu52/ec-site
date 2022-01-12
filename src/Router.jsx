@@ -9,6 +9,7 @@ import { ProductDetail } from "./components/templates/ProductDetail";
 import { CartList } from "./components/templates/CartList";
 import { OrderConfirm } from "./components/templates/OrderConfirm";
 import { OrderHistory } from "./components/templates/OrderHistory";
+import { FavoriteList } from "./components/templates/FavoriteList";
 
 export const Router = () => {
     return (
@@ -21,6 +22,7 @@ export const Router = () => {
                <Route exact path="/product/:id" component={ProductDetail} />
                <Route path="/productEdit(/:id)?" component={ProductEdit} />
                <Route path="/cart" component={CartList} />
+               <Route path="/favorite" component={FavoriteList} />
                <Route path="/order/confirm" component={OrderConfirm} />
                <Route path="/order/history" component={OrderHistory} />
             </Auth>

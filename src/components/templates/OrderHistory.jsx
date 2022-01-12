@@ -27,10 +27,10 @@ export const OrderHistory = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+    // users/uid/ordersのデータ
     const orders =  getOrdersHistory(selector)
 
-    console.log(orders)
-
+    //action関数を実行する関数(users/operation)
     useEffect(() => {
         dispatch(fetchOrdersHistory())
     }, [])
@@ -38,6 +38,7 @@ export const OrderHistory = () => {
     return (
         <section className="c-section-wrapin">
             <List className={classes.orderList}>
+                {/* 注文した商品の情報をループで表示 */}
                 {orders.length > 0 && (
                     orders.map(order => <OrderHistoryItem key={order.id} order={order} />)
                 )}

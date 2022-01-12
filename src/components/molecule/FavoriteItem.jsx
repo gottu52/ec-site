@@ -20,7 +20,7 @@ const dateToString = (date) => {
 }
 
 
-export const OrderHistoryItem = (props) => {
+export const FavoriteItem = (props) => {
     const order = props.order
     const orderedDatetime = dateTimeToString(order.updated_at.toDate())
     const shippingDate = dateToString(order.shipping_date.toDate())

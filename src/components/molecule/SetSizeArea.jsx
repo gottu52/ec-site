@@ -28,6 +28,7 @@ const SetSizesArea = (props) => {
     const classes = useStyles();
 
     //useState
+    //indexは追加されたデータの数(size,quantity)
     const [index, setIndex] = useState(0),
         [size, setSize] = useState(""),
         [quantity, setQuantity] = useState(0);
@@ -42,22 +43,27 @@ const SetSizesArea = (props) => {
 
     //サイズ、数量の追加関数
     const addSize = (index, size, quantity) => {
-        if(size === "" || quantity === "") {
+        if(size === "" || quantity === "" || quantity === 0) {
             //Required input is blank
             return false
         } else {
             // 新規作成の場合
             if(index === props.sizes.length) {
+                //sizesにデータをセット
                 props.setSizes(prevState => [...prevState, {size: size, quantity: quantity}])
+                //indexに＋１
                 setIndex(index + 1)
+                //入力欄をリセット
                 setSize("")
                 setQuantity(0)   
             //既存データの修正の場合
             } else {
+                //index番目のデータをsizesにセット
                 const newSizes = props.sizes
                 newSizes[index] = {size: size, quantity: quantity}
                 props.setSizes(newSizes)
                 setIndex(newSizes.length)
+                // 入力欄をリセット
                 setSize("")
                 setQuantity(0)
             }
@@ -72,6 +78,7 @@ const SetSizesArea = (props) => {
     }
 
     // サイズ、数量の削除
+    //削除の際はfilterをかけ、削除しないデータをすべて取得してsetする
     const deleteSize = (deleteIndex) => {
         const newSizes = props.sizes.filter((item, i) => i !== deleteIndex)
         props.setSizes(newSizes)
@@ -86,6 +93,7 @@ const SetSizesArea = (props) => {
         <div aria-label="サイズ展開">
             <TableContainer component={Paper}>
                 <Table aria-label="simple table">
+                    {/* テーブルヘッド */}
                     <TableHead>
                         <TableRow>
                             <TableCell>サイズ</TableCell>
@@ -94,17 +102,23 @@ const SetSizesArea = (props) => {
                             <TableCell className={classes.iconCell} />
                         </TableRow>
                     </TableHead>
+                    {/* テーブルボディ */}
+                    {/* sizesが追加されたら表示 */}
                     <TableBody>
                         {props.sizes.length > 0 && (
                             props.sizes.map((item, index) => (
                                 <TableRow key={item.size}>
+                                    {/* サイズ */}
                                     <TableCell component="th" scope="row">{item.size}</TableCell>
+                                    {/* 数量 */}
                                     <TableCell>{item.quantity}</TableCell>
+                                    {/* 編集ボタン */}
                                     <TableCell className={classes.iconCell}>
                                         <IconButton className={classes.iconCell} onClick={() => editSize(index, item.size, item.quantity)}>
                                             <EditIcon />
                                         </IconButton>
                                     </TableCell>
+                                    {/* 削除ボタン */}
                                     <TableCell className={classes.iconCell}>
                                         <IconButton className={classes.iconCell} onClick={() => deleteSize(index)}>
                                             <DeleteIcon />
@@ -115,6 +129,7 @@ const SetSizesArea = (props) => {
                         )}
                     </TableBody>
                 </Table>
+                {/* input */}
                 <div>
                     <TextInput
                         fullWidth={false} label={"サイズ"} multiline={false} required={true}
@@ -125,6 +140,7 @@ const SetSizesArea = (props) => {
                         onChange={inputQuantity} rows={1} value={quantity} type={"number"}
                     />
                 </div>
+                {/* サイズ、数量の追加ボタン */}
                 <IconButton className={classes.checkIcon} onClick={() => addSize(index, size, quantity)}>
                     <CheckCircleIcon/>
                 </IconButton>

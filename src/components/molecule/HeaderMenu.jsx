@@ -68,7 +68,7 @@ export const HeaderMenu = (props) => {
                 </Badge>
             </IconButton>
             {/* お気に入りアイコン */}
-            <IconButton>
+            <IconButton onClick={() => dispatch(push('/favorite'))}>
                 <FavoriteBorder />
             </IconButton>
             {/* メニューボタン */}

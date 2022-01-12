@@ -40,7 +40,7 @@ export const SizeTable = (props) => {
                                 <TableCell className={classes.iconCell}>
                                     {size.quantity > 0 ? (
                                         // クリックでカートに商品を追加
-                                        <IconButton onClick={() => props.addProduct(size.size)}>
+                                        <IconButton onClick={() => props.addProductToCart(size.size)}>
                                             <ShoppingCartIcon />
                                         </IconButton>
                                     ) : (
@@ -48,7 +48,7 @@ export const SizeTable = (props) => {
                                     )}
                                 </TableCell>
                                 {/* お気に入りアイコン */}
-                                <TableCell className={classes.iconCell}>
+                                <TableCell className={classes.iconCell} onClick={() => props.addProductToFavorite()}>
                                     <IconButton>
                                         <FavoriteBorderIcon />
                                     </IconButton>

@@ -1,6 +1,6 @@
 import {push} from 'connected-react-router';
 import {auth, FirebaseTimestamp, db} from "../../firebase/index";
-import { fetchOrdersHistoryAction, fetchProductsInCartAction, signInAction, signOutAction } from './actions';
+import { fetchFavoriteAction, fetchOrdersHistoryAction, fetchProductsInCartAction, signInAction, signOutAction } from './actions';
 
 //サインイン処理
 export const signIn = (email, password) => {
@@ -135,7 +135,7 @@ export const listenAuthState = () => {
 
 
 //カートに商品を追加する
-export const addProductToCart = (addedProduct) => {
+export const setProductToCart = (addedProduct) => {
     return async(dispatch, getState) => {
         //usersのidを取得し
         const uid = getState().users.uid
@@ -150,12 +150,42 @@ export const addProductToCart = (addedProduct) => {
     }
 }
 
+//お気に入りに商品を追加する
+export const setProductToFavorite = (addedProduct) => {
+    return async(dispatch, getState) => {
+        const uid = getState().users.uid
+        const favoriteRef = db.collection('users').doc(uid).collection('favorite').doc()
+        addedProduct['favoriteId'] = favoriteRef.id
+
+        await favoriteRef.set(addedProduct)
+        dispatch(push('/'))
+    }
+}
+
+//カートのactionを実行
 export const fetchProductsInCart = (products) => {
     return async(dispatch) => {
         dispatch(fetchProductsInCartAction(products))
     }
 }
 
+//お気に入り商品のactionを実行
+export const fetchFavorite = () => {
+    return async(dispatch, getState) => {
+        const uid = getState().users.uid
+        const list = []
+        db.collection('users').doc(uid).collection('favorite').get()
+            .then((snapshots) => {
+                snapshots.forEach(snapshot => {
+                    const data = snapshot.data()
+                    list.push(data)
+                })
+                dispatch(fetchFavoriteAction(list))
+            })
+    }
+}
+
+//注文履歴のaction関数の実行
 export const fetchOrdersHistory = () => {
     return async(dispatch, getState) => {
         const uid = getState().users.uid

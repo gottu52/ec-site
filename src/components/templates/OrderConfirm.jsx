@@ -37,10 +37,10 @@ export const OrderConfirm = () => {
     const classes = useStyles()
     const dispatch = useDispatch()
     const selector = useSelector(state => state)
+    // users/uid/cartのデータ
     const productsInCart = getProductInCart(selector)
-    console.log(productsInCart)
 
-    //計算
+    //料金全般の計算
     const subTotal = useMemo(() => {
         return productsInCart.reduce((sum, product) => sum += product.price, 0)
     }, [productsInCart])
@@ -48,19 +48,20 @@ export const OrderConfirm = () => {
     const tax = subTotal * 0.1
     const total = subTotal + shippingFee + tax
 
-    //注文を発注する関数（operation.jsx）
+    //注文を発注する関数をdispatch（operation.jsx）
     const order = useCallback(() => {
         dispatch(orderProducts(productsInCart, total))
     }, [dispatch, productsInCart, total])
 
     return (
         <section className="c-section-wrapin">
+            {/* タイトル */}
             <h2 className="u-text__headline">注文の確認</h2>
             <div className="p-grid__row">
+                {/* カート内の商品一覧 */}
                 <div className={classes.detailBox}>
                     <List>
-                        {/* カート内の情報を参照してCartListItemコンポーネントを生成
-                        （購入する商品の確認） */}
+                        {/* カート内の情報を参照してCartListItemコンポーネントを生成（購入する商品の確認） */}
                         {productsInCart.length > 0 && (
                             productsInCart.map(product => (
                                 <CartListItem key={product.cartId} product={product} />
@@ -68,8 +69,8 @@ export const OrderConfirm = () => {
                         )}
                     </List>
                 </div>
-                <div className={classes.orderBox}>
-                    {/* 計算結果を反映する */}
+                {/* 計算結果を反映する */}
+                <div className={classes.orderBox}>      
                     <TextDetail label={"商品の合計金額"} value={subTotal.toLocaleString()} />
                     <TextDetail label={"送料"} value={shippingFee.toLocaleString()} />
                     <TextDetail label={"消費税"} value={"¥" + tax.toLocaleString()} />

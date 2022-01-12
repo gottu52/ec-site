@@ -6,7 +6,8 @@ import HTMLReactParser from "html-react-parser";
 import { db, FirebaseTimestamp } from "../../firebase";
 import { ImageSwiper } from "../molecule/ImageSwiper";
 import { SizeTable } from "../molecule/SizeTable";
-import { addProductToCart } from '../../redux/users/operations';
+import { setProductToCart, setProductToFavorite } from '../../redux/users/operations';
+import { push } from 'connected-react-router';
 
 const useStyles = makeStyles((theme) => ({
     sliderBox: {
@@ -71,9 +72,9 @@ export const ProductDetail = () => {
 
     //カートアイコンに渡す関数
     //カートに商品を追加する関数(users/operation)をdispatchで実行する
-    const addProduct = useCallback((selectedSize) => {
+    const addProductToCart = useCallback((selectedSize) => {
         const timestamp = FirebaseTimestamp.now();
-        dispatch(addProductToCart({
+        dispatch(setProductToCart({
             added_at: timestamp,
             name: product.name,
             description: product.description,
@@ -84,6 +85,15 @@ export const ProductDetail = () => {
             productId: product.id,
             quantity: 1,
             size: selectedSize
+        }))
+    }, [product])
+
+    //お気に入りリストに追加する関数
+    const addProductToFavorite = useCallback(() => {
+        dispatch(setProductToFavorite({
+            images: product.images,
+            name: product.name,
+            price: product.price,
         }))
     }, [product])
 
@@ -102,7 +112,7 @@ export const ProductDetail = () => {
                         <p className={classes.price}>{product.price.toLocaleString()}</p>
                         <div className="module-spacer--small" />
                         {/* サイズ、数量を表示するmolecule */}
-                        <SizeTable sizes={product.sizes} addProduct={addProduct}/>
+                        <SizeTable sizes={product.sizes} addProductToCart={addProductToCart} addProductToFavorite={addProductToFavorite}/>
                         <div className="module-spacer--small" />
                         {/* 商品の説明 */}
                         <p>{returnCodeToBr(product.description)}</p>

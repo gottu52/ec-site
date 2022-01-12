@@ -26,3 +26,8 @@ export const getOrdersHistory = createSelector(
     [usersSelector],
     state => state.orders
 );
+
+export const getFavorite = createSelector(
+    [usersSelector],
+    state => state.favorite
+);
