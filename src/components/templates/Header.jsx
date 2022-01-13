@@ -45,7 +45,9 @@ export const Header = () => {
         if(event.type === 'keydown' && 
             (event.key === 'Tab' || event.key === 'Shift')) {
             return; 
-            }
+        } else if(event.type === 'keydown') {
+            return;
+        }
             setOpen(isOpen)
     }, [open, setOpen])
 

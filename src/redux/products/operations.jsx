@@ -5,7 +5,7 @@ import { deleteProductsAction, fetchProductsAction } from "./actions";
 const productsRef = db.collection('products');
 
 //商品情報を随時取得
-export const fetchProducts = (gender, category) => {
+export const fetchProducts = (gender, category, name) => {
     return async(dispatch) => {
         //更新が新しい順にソート（昇順）
         let query = productsRef.orderBy('updated_at', 'desc')
@@ -14,6 +14,8 @@ export const fetchProducts = (gender, category) => {
         query = (gender !== "") ? query.where('gender', '==', gender) : query
         //categoryも同じ様に
         query = (category !== "") ? query.where('category', '==', category) : query
+        //nameも
+        query = (name !== "") ? query.where('name', '==', name) : query
         //データをゲットし、actionを実行
         query.get()
             .then(snapshot => {

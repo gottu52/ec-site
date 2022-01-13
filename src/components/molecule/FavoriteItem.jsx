@@ -1,43 +1,82 @@
-import { Divider } from "@material-ui/core"
-import { OrderedProducts } from "./OrderedProducts"
+import { Button, ListItem, ListItemAvatar, ListItemText } from "@material-ui/core"
+import { makeStyles } from "@material-ui/styles"
+import { push } from "connected-react-router"
+import { useDispatch, useSelector } from "react-redux"
+import { PrimaryButton } from "../attom/PrimaryButton"
+import { db } from "../../firebase"
+import { getUserId } from "../../redux/users/selector"
+import { useEffect } from "react"
+import { fetchFavorite } from "../../redux/users/operations"
+import { fetchFavoriteAction } from "../../redux/users/actions"
 
-import { TextDetail } from "./TextDetail"
 
-
-//日付のデータを表示したい文章に変換
-const dateTimeToString = (date) => {
-    return date.getFullYear() + "-" 
-        + ("00" + (date.getMonth()+1)).slice(-2) +  "-"
-        + ("00" + date.getDate()).slice(-2) + "-"
-        + ("00" + date.getHours()).slice(-2) + "-"
-        + ("00" + date.getMinutes()).slice(-2) + "-"
-        + ("00" + date.getSeconds()).slice(-2)
-}
-const dateToString = (date) => {
-    return date.getFullYear() + "-" 
-        + ("00" + (date.getMonth()+1)).slice(-2) +  "-"
-        + ("00" + date.getDate()).slice(-2)
-}
+const useStyles = makeStyles((theme) => ({
+    listItem: {
+        background: "#ddd",
+        margin: '20px 0',
+        boxShadow: '0 5px 5px 0 rgba(0, 0, 0, 0.6)'
+    },
+    image: {
+        objectFit: 'cover',
+        height: 100,
+        width: 100,
+        margin: '8px 40px 8px 24px'
+    },
+    text: {
+        width: '100%'
+    },
+    delete: {
+        backgroundColor: "#ddd",
+        color: "#000",
+        fontSize: 16,
+        height: 52,
+        marginBottom: 16,
+        width: 200,
+        marginLeft: 20
+    }
+}))
 
 
 export const FavoriteItem = (props) => {
-    const order = props.order
-    const orderedDatetime = dateTimeToString(order.updated_at.toDate())
-    const shippingDate = dateToString(order.shipping_date.toDate())
-    const price = "¥" + order.amount.toLocaleString()
+    const product = props.product
+    const dispatch = useDispatch()
+    const classes = useStyles()
+    const selector = useSelector(state => state)
+
+    //リストから削除したい
+    const uid = getUserId(selector)
+    const removeFavorite = (id) => {
+        return async(dispatch, getState) => {
+             db.collection('users').doc(uid).collection('favorite').doc(id).delete()
+                .then(() => {
+                    dispatch(fetchFavorite())
+                })
+        }
+    }
 
     return(
-        <div>
-            <div className="module-spacer--small"></div>
-            <TextDetail label={"注文ID"} value={order.id} />
-            <TextDetail label={"注文日時"} value={orderedDatetime} />
-            <TextDetail label={"発送予定日"} value={shippingDate} />
-            <TextDetail label={"注文金"} value={price} />
-            {order.products.length > 0 && (
-                <OrderedProducts products={order.products} />
-            )}
-            <div className="module-spacer--extra-extra-small"></div>
-            <Divider />
-        </div>
+        <ListItem className={classes.listItem} key={product.id}>
+            {/* 商品画像 */}
+            <ListItemAvatar className={classes.image}>
+                <img src={product.images[0].path} alt="Favorite Product" />
+            </ListItemAvatar>
+            {/* 商品名、価格 */}
+            <div className={classes.text}>
+                <ListItemText>{product.name}</ListItemText>
+                <ListItemText>{'¥' + product.price.toLocaleString()}</ListItemText>
+            </div>
+            {/* 詳細ボタン */}
+            <PrimaryButton 
+                label={'商品の詳細を見る'}
+                onClick={() => dispatch(push('/product/' + product.productId))}
+            />
+            <Button
+                className={classes.delete}
+                variant="contained"
+                onClick={() => dispatch(removeFavorite(product.favoriteId))}
+            >
+                削除する
+            </Button>
+        </ListItem>
     )
 }

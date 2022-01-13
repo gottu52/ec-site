@@ -91,6 +91,7 @@ export const ProductDetail = () => {
     //お気に入りリストに追加する関数
     const addProductToFavorite = useCallback(() => {
         dispatch(setProductToFavorite({
+            productId: id,
             images: product.images,
             name: product.name,
             price: product.price,

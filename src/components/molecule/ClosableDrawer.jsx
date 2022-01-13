@@ -88,6 +88,10 @@ export const ClosableDrawer = (props) => {
         { func: selectMenu, label:"レディース", id: "female", value: "/?gender=female" },
     ])
 
+    const onClickSearch = () => {
+        dispatch(push('/?name=' + keyword))
+    }
+
     //componentDidMountでfirestoreからカテゴリーのデータを持ってくる
     useEffect(() => [
         db.collection('categories').orderBy('order', 'asc').get()
@@ -134,7 +138,7 @@ export const ClosableDrawer = (props) => {
                             valuse={keyword}
                             type="text"
                         />
-                        <IconButton>
+                        <IconButton onClick={onClickSearch}>
                             <SearchIcon />
                         </IconButton>
                     </div>
