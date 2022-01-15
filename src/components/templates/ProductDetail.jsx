@@ -7,7 +7,7 @@ import { db, FirebaseTimestamp } from "../../firebase";
 import { ImageSwiper } from "../molecule/ImageSwiper";
 import { SizeTable } from "../molecule/SizeTable";
 import { setProductToCart, setProductToFavorite } from '../../redux/users/operations';
-import { push } from 'connected-react-router';
+
 
 const useStyles = makeStyles((theme) => ({
     sliderBox: {
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
         fontSize: 36
     }
 }))
+
 
 //複数行の文章の改行を<br />タグに置き換える
 const returnCodeToBr = (text) => {

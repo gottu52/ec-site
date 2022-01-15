@@ -85,6 +85,7 @@ export const ProductEdit = () => {
     return(
         <div className="c-section-container">
             <h2 className="u-text__headline u-text-center">商品の登録、追加</h2>
+            {/* 画像エリア */}
             <ImageArea images={images} setImages={setImages}/>
             <div className="module-spacer--medium" />
             {/* 商品名 */}
