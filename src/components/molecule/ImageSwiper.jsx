@@ -2,8 +2,21 @@ import Swiper from "react-id-swiper";
 import NoImage from "../../assets/img/no_image.png";
 import 'swiper/css/swiper.css';
 import { useState } from "react";
+import { makeStyles } from "@material-ui/core";
+
+
+const useStyles = makeStyles({
+    image: {
+        objectFit: 'cover',
+        height: 380,
+        width: 300
+    }
+})
+
 
 export const ImageSwiper = (props) => {
+    const classes = useStyles()
+
     const [params] = useState({
         pagination: {
             el: 'swiper-pagination',
@@ -29,7 +42,7 @@ export const ImageSwiper = (props) => {
             ) : (
                 images.map(image => (
                     <div className="p-media__thunmb" key={image.id}>
-                        <img src={image.path} alt="商品画像" />
+                        <img className={classes.image} src={image.path} alt="商品画像" />
                     </div>
                 ))
             )}

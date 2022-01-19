@@ -48,7 +48,7 @@ export const OrderConfirm = () => {
     const tax = subTotal * 0.1
     const total = subTotal + shippingFee + tax
 
-    //注文を発注する関数をdispatch（operation.jsx）
+    //注文を発注する関数をdispatch（products/operation.jsx）
     const order = useCallback(() => {
         dispatch(orderProducts(productsInCart, total))
     }, [dispatch, productsInCart, total])

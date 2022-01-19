@@ -17,6 +17,11 @@ export const getUserName = createSelector(
     state => state.username
 );
 
+export const getUserRole = createSelector(
+    [usersSelector],
+    state => state.role
+);
+
 export const getProductInCart = createSelector(
     [usersSelector],
     state => state.cart

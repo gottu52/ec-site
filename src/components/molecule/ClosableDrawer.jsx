@@ -8,16 +8,16 @@ import { IconButton } from '@material-ui/core';
 import SearchIcon from "@material-ui/icons/Search";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import HistoryIcon from "@material-ui/icons/History";
-import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { makeStyles } from '@material-ui/styles';
 import { TextInput } from '../attom/TextInput';
 import { useCallback, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { push } from "connected-react-router";
 
 import { signOut } from "../../redux/users/operations";
 import { db } from "../../firebase";
+import { getUserRole } from "../../redux/users/selector";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -43,6 +43,11 @@ const useStyles = makeStyles((theme) => ({
 export const ClosableDrawer = (props) => {
     const dispatch = useDispatch();    
     const classes = useStyles()
+    const selector = useSelector(state => state)
+
+    //roleをゲット
+    const role = getUserRole(selector)
+
     //入力欄のuseState
     const [keyword, setKeyword] = useState('');
     //入力欄のonChange
@@ -71,13 +76,6 @@ export const ClosableDrawer = (props) => {
             icon:  <HistoryIcon />, 
             id: "history",
             value: "/order/history"
-        },
-        {
-            func: selectMenu, 
-            label:"プロフィール", 
-            icon:  <PersonIcon />, 
-            id: "profile",
-            value: "/user/mypage"
         },
     ];
 
@@ -146,14 +144,20 @@ export const ClosableDrawer = (props) => {
                     {/* メニューリスト */}
                     <List>
                         {/* メニュー一覧 */}
-                        {menus.map(menu => (
-                            <ListItem button key={menu.id} onClick={(e) => menu.func(e, menu.value)}>
-                                <ListItemIcon>
-                                    {menu.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={menu.label} />
-                            </ListItem>
-                        ))}
+                        {role === "administrator" && (
+                          <ListItem button onClick={(e) => selectMenu(e, "/productEdit")}>
+                            <ListItemIcon>
+                                <AddCircleIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="商品登録" />
+                        </ListItem>  
+                        )}
+                        <ListItem button onClick={(e) => selectMenu(e, "/order/history")}>
+                            <ListItemIcon>
+                                <HistoryIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="注文履歴" />
+                        </ListItem>
                         {/* ログアウト */}
                         <ListItem button key="logout" onClick={() => dispatch(signOut())} >
                             <ListItemIcon>

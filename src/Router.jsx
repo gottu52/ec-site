@@ -8,6 +8,7 @@ import { ProductList } from "./components/templates/ProductList";
 import { ProductDetail } from "./components/templates/ProductDetail";
 import { CartList } from "./components/templates/CartList";
 import { OrderConfirm } from "./components/templates/OrderConfirm";
+import { OrderComplete } from "./components/templates/OrderComplete";
 import { OrderHistory } from "./components/templates/OrderHistory";
 import { FavoriteList } from "./components/templates/FavoriteList";
 
@@ -24,6 +25,7 @@ export const Router = () => {
                <Route path="/cart" component={CartList} />
                <Route path="/favorite" component={FavoriteList} />
                <Route path="/order/confirm" component={OrderConfirm} />
+               <Route path="/order/complete" component={OrderComplete} />
                <Route path="/order/history" component={OrderHistory} />
             </Auth>
         </Switch>

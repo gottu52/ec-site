@@ -75,6 +75,7 @@ export const orderProducts = (productsInCart, amount) => {
             products.push({
                 id: product.productId,
                 images: product.images,
+                name: product.name,
                 price: product.price,
                 size: product.size
             });
@@ -97,35 +98,38 @@ export const orderProducts = (productsInCart, amount) => {
                     soldOutProducts.join('と') :
                     soldOutProducts[0]
                 alert('大変申し訳ありません。' + errorMessage + "が在庫切れとなったため、注文処理を中断しました。")
-            } else {
-                //注文履歴の作成
-                batch.commit()
-                    .then(() => {
-                        //保存するドキュメントの取得(users)、発送日のデータの生成
-                        const orderRef = userRef.collection('orders').doc();
-                        const date = timestamp.toDate();
-                        const shippingDate =  FirebaseTimestamp.fromDate(new Date(date.setDate(date.getDate() + 3)));
-
-                        //注文履歴のデータ
-                        const history = {
-                            amount: amount,
-                            created_at: timestamp,
-                            id: orderRef.id,
-                            products: products,
-                            shipping_date: shippingDate,
-                            updated_at: timestamp
-                        }
-
-                        //ドキュメントにデータを追加し、ページ遷移
-                        orderRef.set(history)
-                        dispatch(push('/order/complete'))
-
-                    }).catch(() => {
-                        alert('注文処理に失敗しました。通信環境をご確認のうえ、もう一度お試しください。')
-                        return false
-                    })
+                return false
             }
         }
+        
+            //注文履歴の作成
+            batch.commit()
+                .then(() => {
+                    //保存するドキュメントの取得(users)、発送日のデータの生成
+                    const orderRef = userRef.collection('orders').doc();
+                    const date = timestamp.toDate();
+                    const shippingDate =  FirebaseTimestamp.fromDate(new Date(date.setDate(date.getDate() + 3)));
+
+                    //注文履歴のデータ
+                    const history = {
+                        amount: amount,
+                        created_at: timestamp,
+                        id: orderRef.id,
+                        products: products,
+                        shipping_date: shippingDate,
+                        updated_at: timestamp
+                    }
+
+                    //ドキュメントにデータを追加し、ページ遷移
+                    orderRef.set(history)
+                    dispatch(push('/order/complete'))
+
+                }).catch(() => {
+                    alert('注文処理に失敗しました。通信環境をご確認のうえ、もう一度お試しください。')
+                    return false
+                })
+            
+        
 
     }
 }

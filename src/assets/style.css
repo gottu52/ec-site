@@ -15,7 +15,8 @@
 /*********** Section ***********/
 .c-main {
     padding: 96px 0;
-    height: 1000px
+    background-image: url('./img/background.jpg');
+    min-height: 1100px
 }
 .c-section-wrapin {
     margin: 0 auto;
@@ -139,8 +140,9 @@
 }
 
 .u-text__headline {
-    color: #4dd0e1;
+    color: #c25a6c;
     font-size: 1.563rem;
+    font-weight: bold;
     margin: 0 auto 1rem auto;
 }
 

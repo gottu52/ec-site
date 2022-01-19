@@ -14,13 +14,9 @@ import { useCallback, useState } from "react";
 
 const useStyles = makeStyles({
     root: {
-        flexGlow: 1,
+        flexGlow: 1,   
     },
-    menuBar: {
-        backgroundColor: "#fff",
-        color: "#444",
-    },
-    toolBar: {
+    toolbar: {
         margin: "0 auto",
         maxWidth: 1024,
         width: "100%",
@@ -53,8 +49,8 @@ export const Header = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar position="fixed" className={classes.menuBar}>
-                <Toolbar className={classes.toolBar}>
+            <AppBar position="fixed" color='secondary'>
+                <Toolbar className={classes.toolbar}>
                     {/* ロゴ */}
                     <img 
                         src={logo} alt="logo" className={classes.logo} width="128px"
@@ -62,9 +58,9 @@ export const Header = () => {
                     />
                     {/* ログインしてたらアイコンを表示 */}
                     {isSignedIn && (
-                    <div className={classes.iconButtons}>
-                        <HeaderMenu onClick={handleDrawerToggle}/>
-                    </div>
+                        <div className={classes.iconButtons}>
+                            <HeaderMenu onClick={handleDrawerToggle}/>
+                        </div>
                     )}
                 </Toolbar>
             </AppBar>

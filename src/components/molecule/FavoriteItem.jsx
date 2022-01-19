@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { PrimaryButton } from "../attom/PrimaryButton"
 import { db } from "../../firebase"
 import { getUserId } from "../../redux/users/selector"
-import { useEffect } from "react"
 import { fetchFavorite } from "../../redux/users/operations"
-import { fetchFavoriteAction } from "../../redux/users/actions"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -18,8 +16,8 @@ const useStyles = makeStyles((theme) => ({
     },
     image: {
         objectFit: 'cover',
-        height: 100,
-        width: 100,
+        // height: 100,
+        width: 80,
         margin: '8px 40px 8px 24px'
     },
     text: {
@@ -67,7 +65,7 @@ export const FavoriteItem = (props) => {
             </div>
             {/* 詳細ボタン */}
             <PrimaryButton 
-                label={'商品の詳細を見る'}
+                label={'詳細'}
                 onClick={() => dispatch(push('/product/' + product.productId))}
             />
             <Button
@@ -75,7 +73,7 @@ export const FavoriteItem = (props) => {
                 variant="contained"
                 onClick={() => dispatch(removeFavorite(product.favoriteId))}
             >
-                削除する
+                削除
             </Button>
         </ListItem>
     )

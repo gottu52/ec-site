@@ -7,7 +7,6 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { fetchFavorite } from "../../redux/users/operations"
 import { FavoriteItem } from "../molecule/FavoriteItem"
-import { push } from "connected-react-router"
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,14 +34,16 @@ export const FavoriteList = () => {
 
 
     return(
-        <List className={classes.list}>
-            {products.length > 0 && 
-                (products.map(product => (
-                    <div key={product.favoriteId}>
-                        <FavoriteItem product={product}/>
-                    </div>
-                )
-            ))}    
-        </List>
+        <section>
+            <List className={classes.list}>
+                {products.length > 0 && 
+                    (products.map(product => (
+                        <div key={product.favoriteId}>
+                            <FavoriteItem product={product}/>
+                        </div>
+                    )
+                ))}    
+            </List>   
+        </section>
     )
 }

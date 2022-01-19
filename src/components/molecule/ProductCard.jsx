@@ -71,32 +71,39 @@ export const ProductCard = (props) => {
                         ¥{price}
                     </Typography> 
                 </div>
-                <IconButton onClick={handleClick} >
-                    <MOreVertIcon />
-                </IconButton>
-                <Menu
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem
-                        onClick={() => {
-                            dispatch(push('productEdit/' + props.id))
-                            handleClose()
-                        }}
-                    >
-                        編集する
-                    </MenuItem>
-                    <MenuItem
-                        onClick={() => {
-                            dispatch(deleteProducts(props.id))
-                            handleClose()
-                        }}
-                    >
-                        削除する
-                    </MenuItem>
-                </Menu>
+                
+                {props.role === 'administrator' && (
+                    <>
+                        <IconButton onClick={handleClick} >
+                            <MOreVertIcon />
+                        </IconButton>
+                        <Menu
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem
+                                onClick={() => {
+                                    dispatch(push('productEdit/' + props.id))
+                                    handleClose()
+                                }}
+                            >
+                                編集する
+                            </MenuItem>   
+                            <MenuItem
+                                onClick={() => {
+                                    dispatch(deleteProducts(props.id))
+                                    handleClose()
+                                }}
+                            >
+                                削除する
+                            </MenuItem>
+                        </Menu>
+                    </>
+                    
+                )} 
+                    
             </CardContent>
         </Card>
     )

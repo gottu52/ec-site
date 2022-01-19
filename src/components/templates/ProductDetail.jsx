@@ -105,7 +105,7 @@ export const ProductDetail = () => {
                 <div className="p-grid-row">
                     {/* 商品画像 */}
                     <div className={classes.sliderBox}>
-                        <ImageSwiper images={product.images} />
+                        <ImageSwiper images={product.images}/>
                     </div>
                     <div className={classes.detail}>
                         {/* 商品名 */}

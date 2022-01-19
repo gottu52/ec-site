@@ -38,6 +38,7 @@ export const OrderHistoryItem = (props) => {
             )}
             <div className="module-spacer--extra-extra-small"></div>
             <Divider />
+            <div className="module-spacer--extra-extra-small"></div>
         </div>
     )
 }

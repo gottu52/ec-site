@@ -14,6 +14,9 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles({
+    inputText: {
+        marginLeft: '20px'
+    },
     checkIcon: {
         float: 'right'
     },
@@ -130,7 +133,7 @@ const SetSizesArea = (props) => {
                     </TableBody>
                 </Table>
                 {/* input */}
-                <div>
+                <div className={classes.inputText}>
                     <TextInput
                         fullWidth={false} label={"サイズ"} multiline={false} required={true}
                         onChange={inputSize} rows={1} value={size} type={"text"}

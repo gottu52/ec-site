@@ -13,9 +13,6 @@ import { db } from "../../firebase"
 
 
 const useStyles = makeStyles({
-    list: {
-        height: 28,
-    },
     image: {
         objectFit: 'cover',
         margin: 16,
@@ -47,7 +44,7 @@ export const CartListItem = (props) => {
 
     return (
         <>
-            <ListItem className={classes.list}>
+            <ListItem>
                 {/* 商品画像 */}
                 <ListItemAvatar>
                     <img className={classes.image} src={image} alt="商品画像" />
