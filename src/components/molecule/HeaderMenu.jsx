@@ -5,7 +5,7 @@ import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import MenuIcon from "@material-ui/icons/Menu";
 import { useSelector } from "react-redux";
 import { getProductInCart, getUserId } from "../../redux/users/selector";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { db } from "../../firebase";
 import { useDispatch } from "react-redux";
 import { fetchProductsInCart } from "../../redux/users/operations";
@@ -19,7 +19,8 @@ export const HeaderMenu = (props) => {
     let productsInCart = getProductInCart(selector);
     // user/collection('uid')のデータ
     const userId = getUserId(selector);
-    
+
+
     //バッジの値を取得(firestoreのリスナー)
     useEffect(() => {
         const unsubscribe = db.collection('users').doc(userId).collection('cart')
@@ -52,22 +53,21 @@ export const HeaderMenu = (props) => {
                 //最後に変化した後のデータをfetchする
                 dispatch(fetchProductsInCart(productsInCart))
             })
-            console.log(productsInCart.length)
         //関数コンポーネントのreturnにすることで、
         //unMountしたときにリッスンを解除できる
         return () => unsubscribe()
     }, [])
-    
 
     return(
         <>
-            {/* ショッピングアイコン */}
+        {/* ショッピングアイコン */}
             <IconButton onClick={() => dispatch(push('/cart'))}>
                 {/* バッジ(カートの中の商品の数) */}
                     <Badge badgeContent={productsInCart.length} color="secondary">
                         <ShoppingCart /> 
                     </Badge> 
             </IconButton>
+            
             {/* お気に入りアイコン */}
             <IconButton onClick={() => dispatch(push('/favorite'))}>
                 <FavoriteBorder />

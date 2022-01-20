@@ -7,6 +7,7 @@ import { fetchProducts } from "../../redux/products/operations";
 import { getProducts } from "../../redux/products/selector";
 import { getUserRole } from "../../redux/users/selector";
 import { ProductCard } from "../molecule/ProductCard";
+import { Header } from "./Header";
 
 
 const useStyles = makeStyles({
@@ -33,7 +34,6 @@ export const ProductList = () => {
 
     //roleをget
     const role = getUserRole(selector)
-    console.log(role)
 
     //firestoreのproductsコレクションを取ってくる
     const products =  getProducts(selector);

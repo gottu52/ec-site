@@ -86,6 +86,7 @@ export const signOut = () => {
             .then(() => {
                 //actionとページ遷移
                 dispatch(signOutAction())
+                window.location.reload()
                 dispatch(push('/signIn'))
             })
     }

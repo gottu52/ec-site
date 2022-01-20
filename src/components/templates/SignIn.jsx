@@ -4,6 +4,8 @@ import {PrimaryButton} from "../attom/PrimaryButton";
 import { signIn } from "../../redux/users/operations";
 import { useDispatch } from "react-redux";
 import { push } from "connected-react-router";
+import { getProductInCart } from "../../redux/users/selector";
+import { useSelector } from "react-redux";
 
 export const SignIn = () => {
     const dispatch = useDispatch();
